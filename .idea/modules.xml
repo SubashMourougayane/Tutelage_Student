@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://D:\Saasthra\FireBase\Tutelage_Student\Tutelage_Sastra_FB.iml" filepath="D:\Saasthra\FireBase\Tutelage_Student\Tutelage_Sastra_FB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tutelage_Student.iml" filepath="$PROJECT_DIR$/Tutelage_Student.iml" />
+      <module fileurl="file://X:\AndroidProjects\Tutelage_Shastra\Tutelage_Sastra_FB\Tutelage_unisys.iml" filepath="X:\AndroidProjects\Tutelage_Shastra\Tutelage_Sastra_FB\Tutelage_unisys.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Saasthra\FireBase\Tutelage_Student\app\app.iml" filepath="D:\Saasthra\FireBase\Tutelage_Student\app\app.iml" />
+    </modules>
+  </component>
+</project>
