@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.nadus.tutelage_unisys_student.DataModels.TimeTable;
 import com.example.nadus.tutelage_unisys_student.R;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
@@ -96,6 +97,14 @@ public class Fragment_home_excelupload extends Fragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TimeTable timeTable = new TimeTable();
+                timeTable.setMonday(Mon);
+                timeTable.setTuesday(Tues);
+                timeTable.setWednesday(Weds);
+                timeTable.setThursday(Thurs);
+                timeTable.setFriday(Fri);
+                timeTable.setSaturday(Sat);
+                timeTable.setTimings(timings);
 
             }
         });
