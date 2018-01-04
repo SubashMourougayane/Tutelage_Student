@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -26,7 +28,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nadus.tutelage_unisys_student.Adapters.FileAdapter;
+import com.example.nadus.tutelage_unisys_student.DataModels.Blob;
 import com.example.nadus.tutelage_unisys_student.R;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
 import com.hlab.fabrevealmenu.model.FABMenuItem;
 import com.hlab.fabrevealmenu.view.FABRevealMenu;
@@ -45,12 +55,17 @@ import static android.app.Activity.RESULT_OK;
 
 public class Fragment_soul_3 extends BaseFragment implements OnFABMenuSelectedListener
 {
+    FirebaseUser user;
+    DatabaseReference fb_db;
+    StorageReference storageReference;
+    SharedPreferences preferences;
     FloatingActionButton fab;
     Calligrapher calligrapher;
     TextView empty_text;
     RecyclerView recyclerView;
     ArrayList<String> list = new ArrayList<String>();
-
+    String CurClass;
+    String univ_name,author;
     ArrayList<FileAdapter> fileAdapters=new ArrayList<>();
     ItemAdapter3 itemAdapter3;
 
@@ -131,6 +146,12 @@ public class Fragment_soul_3 extends BaseFragment implements OnFABMenuSelectedLi
         field=(FloatingActionButton)view.findViewById(R.id.field);
         indivRecycler=(RecyclerView)view.findViewById(R.id.recyclerindiv);
         indivRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        preferences = getActivity().getSharedPreferences("Tutelage", 0);
+        univ_name = preferences.getString("univ_name","").replace(" ","");
+        author = preferences.getString("mailsplit","");
+        CurClass = preferences.getString("u_classname","");
+        new FetchSharedData().execute();
+
         bottomSheet=view.findViewById(R.id.b1);
         bottomSheet2=view.findViewById(R.id.b2);
         bottomSheet3=view.findViewById(R.id.b3);
@@ -494,5 +515,37 @@ public class Fragment_soul_3 extends BaseFragment implements OnFABMenuSelectedLi
                 PICK_FILE);
 
 
+    }
+    public class FetchSharedData extends AsyncTask<String,Integer,String >
+    {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            fb_db = FirebaseDatabase.getInstance().getReference();
+            fb_db = fb_db.child("Users").child(univ_name)
+                    .child("Classes").child(CurClass);
+            fb_db.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    System.out.println("datasnapshot --- > "+dataSnapshot.getKey());
+
+                    for (DataSnapshot postSnapshot:dataSnapshot.getChildren())
+                    {
+                        Blob blob = postSnapshot.getValue(Blob.class);
+                        System.out.print("File DESC IS "+ blob.getFdesc());
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+            return null;
+        }
     }
 }
